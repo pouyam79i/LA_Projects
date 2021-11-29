@@ -1,0 +1,3 @@
+# Ignoring useless files + outputs :)
+Proj 2/out
+Proj 2/__pycache__
