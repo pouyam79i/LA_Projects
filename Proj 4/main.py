@@ -16,10 +16,9 @@ def load_images_train_and_test(TEST):
     return test,train
    
 def normalize(test,train):
-    normalized_train = np.mean(train)
-    normalized_test = np.mean(test)
-    normalized_train = train - normalized_train
-    normalized_test = test - normalized_test
+    mean = np.mean(train, 0)
+    normalized_train = train - mean
+    normalized_test = test - mean
     # return normalized_test,normalized_train
     return normalized_test, normalized_train
 
