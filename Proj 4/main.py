@@ -16,43 +16,44 @@ def load_images_train_and_test(TEST):
     return test,train
    
 def normalize(test,train):
-    """
-    TODO : Normalize test and train and return them properly
-    Hint : To calculate mean properly use two arguments version of mean numpy method (https://www.javatpoint.com/numpy-mean)
-    Hint : normalize test with train mean
-    """
+    normalized_train = np.mean(train)
+    normalized_test = np.mean(test)
+    normalized_train = train - normalized_train
+    normalized_test = test - normalized_test
     # return normalized_test,normalized_train
-    pass
+    return normalized_test, normalized_train
 
 def svd_function(images):
-    """
-    TODO : implement SVD (use np.linalg.svd) and return u,s,v 
-    Additional(Emtiazi) todo : implement svd without using np.linalg.svd
-    """
-    # return None,None,None
-    pass
-
+    u, s, v = np.linalg.svd(images, full_matrices=False)
+    return u, s, v
+    
 def project_and_calculate_weights(img,u):
-    """
-    TODO : calculate element wise multiplication of img and u . (you can use numpy methods)
-    """
-    pass
+    res = img * u
+    return res
 
 def predict(test,train):
-    """
-    TODO : Find the most similar face to test among train set by calculating errors and finding the face that has minimum error
-    return : index of the data that has minimum error in train dataset
-    Hint : error(i) = norm(train[:,i] - test)       (you can use np.linalg.norm)
-    """
-    pass
+    error = []
+    for i in range(114):
+        val = np.linalg.norm(train[:, i] - test)
+        error.append(val)
+        # print(val)
+    least_error_value = 1000
+    least_error_index = 0
+    for i in range(114):
+        if (least_error_value) > (error[i]):
+            least_error_index = i
+            least_error_value = error[i]
+    return least_error_index
 
 def plot_face(tested,predicted):
-    """
-    TODO : Plot tested image and predicted image . It would be great if you show them next to each other 
-    with subplot and figures that you learned in matplotlib video in the channel.
-    But you are allowed to show them one by one
-    """
-    pass
+    fig = plt.figure()
+    ax = fig.add_subplot(1, 2, 1)
+    imgplot = plt.imshow(tested, cmap='gray')
+    ax.set_title('Tested')
+    ax = fig.add_subplot(1, 2, 2)
+    imgplot = plt.imshow(predicted, cmap='gray')
+    ax.set_title('Predicted')
+    plt.show()
 
 if __name__ == "__main__":
     true_predicts=0
@@ -104,4 +105,3 @@ if __name__ == "__main__":
     accuracy=true_predicts/all_predicts
     print(f'Accuracy : {"{:.2f}".format(accuracy*100)} %')
         
-    
